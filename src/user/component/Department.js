@@ -15,6 +15,7 @@ export default function Department() {
         user,
         key: 'department',
         value: tempDepartment,
+        fetchKey: 'department',
        }))
       setIsEditDepartment(false);
     } else {

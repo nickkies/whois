@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { PageHeader, Col, Row, Descriptions, Typography, Space, Spin } from 'antd';
+import { PageHeader, Col, Row, Descriptions, Typography } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions, Types } from '../state';
@@ -7,6 +7,7 @@ import useFetchInfo from '../../common/hook/useFetchInfo';
 import Department from '../component/Department';
 import TagList from '../component/TagList';
 import History from '../../common/component/History';
+import FetchLabel from '../component/FetchLabel';
 
 /**
  * 
@@ -25,7 +26,7 @@ export default function User({ match }) {
 
   // 사용자의 이름별로 상태관리
   // const { isFetched } = useFetchInfo(Types.FetchUser, name);
-  const { isFetched, isSlow } = useFetchInfo(Types.FetchUser);
+  const { isFetched } = useFetchInfo(Types.FetchUser);
 
   return (
     <Row justify="center">
@@ -33,10 +34,7 @@ export default function User({ match }) {
         <PageHeader
           onBack={history.goBack}
           title={
-            <Space>
-              사용자 정보
-              {isSlow && <Spin size="small" />}
-            </Space>
+            <FetchLabel label="사용자 정보" actionType={Types.FetchUser} />
           }
         >
           {user && (
@@ -44,10 +42,10 @@ export default function User({ match }) {
               <Descriptions.Item label="이름">
                 <Typography.Text>{user.name}</Typography.Text>
               </Descriptions.Item>
-              <Descriptions.Item label="소속">
+              <Descriptions.Item label={<FetchLabel label="소속" actionType={Types.FetchUpdateUser} fetchKey="department" />}>
                 <Department />
               </Descriptions.Item>
-              <Descriptions.Item label="태그">
+              <Descriptions.Item label={<FetchLabel label="태그" actionType={Types.FetchUpdateUser} fetchKey="tag" />}>
                 <TagList />
               </Descriptions.Item>
               <Descriptions.Item label="수정 내역">
