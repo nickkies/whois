@@ -45,14 +45,14 @@ export function makeFetchSaga({
     let res;
     let checkSlowTask;
     let params;
-    while (true) {
+    while ( true ) {
       const { value, done } = iter.next(res);
-      if (getIsCallEffect(value) && getIsGeneratorFunction(value.payload.fn)) {
+      if ( getIsCallEffect(value) && getIsGeneratorFunction(value.payload.fn) ) {
         iterStack.push(iter);
         iter = value.payload.fn(...value.payload.args);
         continue;
       }
-      if (getIsCallEffect(value) && value.payload.fn === callApi) {
+      if ( getIsCallEffect(value) && value.payload.fn === callApi ) {
         yield put(
           actions.setFetchStatus({
             actionType,
@@ -67,8 +67,8 @@ export function makeFetchSaga({
             ? apiCache.get(cacheKey)
             : undefined;
         const isFromCache = !!apiResult;
-        if (!isFromCache) {
-          if (!apiResult) {
+        if ( !isFromCache ) {
+          if ( !apiResult ) {
             checkSlowTask = yield fork(makeCheckSlowSaga(actionType, fetchKey));
             apiResult = yield value;
             if (checkSlowTask) {
@@ -77,9 +77,9 @@ export function makeFetchSaga({
           }
         }
         res = apiResult;
-        if (apiResult) {
+        if ( apiResult ) {
           const isSuccess = apiResult.isSuccess;
-          if (isSuccess && canCache && !isFromCache) {
+          if ( isSuccess && canCache && !isFromCache ) {
             apiCache.set(cacheKey, apiResult);
           }
           const totalCount = getTotalCount(apiResult);
@@ -92,17 +92,17 @@ export function makeFetchSaga({
             errorMessage: isSuccess ? '' : apiResult.resultMessage,
           };
         }
-      } else if (value !== undefined) {
+      } else if ( value !== undefined ) {
         res = yield value;
       }
-      if (done) {
+      if ( done ) {
         const nextIter = iterStack.pop();
-        if (nextIter) {
+        if ( nextIter ) {
           iter = nextIter;
           continue;
         }
 
-        if (params) {
+        if ( params ) {
           yield put(actions.setFetchStatus(params));
         }
         break;
@@ -115,7 +115,7 @@ export function makeFetchSaga({
 export function getApiCacheKey(actionType, { apiHost, url, params }) {
   const prefix = `${actionType}_${apiHost ? apiHost + url : url}`;
   const keys = params ? Object.keys(params) : [];
-  if (keys.length) {
+  if ( keys.length ) {
     return (
       prefix +
       keys.sort().reduce((acc, key) => `${acc}&${key}=${params[key]}`, '')
@@ -132,7 +132,7 @@ export function getFetchKey(action) {
 
 function getIsGeneratorFunction(obj) {
   const constructor = obj.constructor;
-  if (!constructor) {
+  if ( !constructor ) {
     return false;
   }
   if (
@@ -151,10 +151,10 @@ function getIsGeneratorFunction(obj) {
  */
 export function deleteApiCache(actionType) {
   let keys = apiCache.keys();
-  if (actionType) {
+  if ( actionType ) {
     keys = keys.filter(key => key.includes(actionType));
   }
-  for (const key of keys) {
+  for ( const key of keys ) {
     apiCache.del(key);
   }
 }
