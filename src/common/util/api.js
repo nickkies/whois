@@ -18,7 +18,7 @@ export function callApi({ method = 'get', url, params, data }) {
     baseURL: API_HOST,
     params,
     data,
-    withCredentials: true,
+    withCredentials: true,  // 사용자 인증 토큰..
   }).then(response => {
     const { resultCode, resultMessage, totalCount } = response.data;
     if (resultCode < 0) {
