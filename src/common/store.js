@@ -4,10 +4,13 @@ import { all } from 'redux-saga/effects';
 import commonReducer from '../common/state';
 import searchReducer from '../search/state';
 import searchSaga from '../search/state/saga';
+import userReducer from '../user/state';
+import userSaga from '../user/state/saga';
 
 const reducer = combineReducers({
   common: commonReducer,
   search: searchReducer,
+  user: userReducer,
 });
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -17,7 +20,7 @@ const store = createStore(
 );
 
 function* rootSaga() {
-  yield all([searchSaga()]);
+  yield all([searchSaga(), userSaga()]);
 }
 sagaMiddleware.run(rootSaga);
 
