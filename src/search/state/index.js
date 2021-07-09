@@ -10,7 +10,7 @@ export const Types = {
 export const actions = {
   setValue: createSetValueAction(Types.SetValue),
   fetchAutoComplete: keyword => ({ type: Types.FetchAutoComplete, keyword }),
-  fetchAllHistory: () => ({ type: Types.FetchAllHistory }),
+  fetchAllHistory: () => ({ type: Types.FetchAllHistory /* 페이징 초기화=> [FETCH_PAGE]: 0 */ }),
 };
 
 const INITIAL_STATE = {
