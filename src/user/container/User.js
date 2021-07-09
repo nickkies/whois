@@ -29,6 +29,10 @@ export default function User({ match }) {
     dispatch(actions.fetchUserHistory(name));
   }, [name, dispatch]);
 
+  useEffect(() => {
+    return () => dispatch(actions.initailize());
+  }, [dispatch]);
+
   // 사용자의 이름별로 상태관리
   // const { isFetched } = useFetchInfo(Types.FetchUser, name);
   const { isFetched } = useFetchInfo(Types.FetchUser);
